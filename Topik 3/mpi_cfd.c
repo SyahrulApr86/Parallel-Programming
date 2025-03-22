@@ -3,12 +3,12 @@
 #include <math.h>
 #include <mpi.h>
 
-// Simulation parameters
-#define NX 400        // Domain size in x-direction
-#define NY 100        // Domain size in y-direction
-#define MAX_ITER 1000  // Maximum number of iterations
-#define REYNOLDS 100.0 // Reynolds number
-#define OUTPUT_FREQ 100 // Output frequency
+// Simulation parameters - can be overridden via command line
+#define NX_DEFAULT 400    // Default domain size in x-direction
+#define NY_DEFAULT 100    // Default domain size in y-direction
+#define MAX_ITER 1000     // Maximum number of iterations
+#define REYNOLDS_DEFAULT 100.0 // Default Reynolds number
+#define OUTPUT_FREQ 100   // Output frequency
 
 // D2Q9 LBM parameters
 #define Q 9           // Number of discrete velocities
@@ -33,7 +33,7 @@ void exchange_ghost_cells(double *f, int local_nx, int local_ny,
                          MPI_Comm cart_comm, int north, int south, int east, int west);
 void save_velocity_field(double *ux, double *uy, double *rho, int iter, 
                         int local_nx, int local_ny, int coords[2], int dims[2], 
-                        MPI_Comm cart_comm);
+                        MPI_Comm cart_comm, int nx, int ny);
 
 int main(int argc, char *argv[]) {
     int rank, size, i, iter;
@@ -49,19 +49,37 @@ int main(int argc, char *argv[]) {
     double omega;              // Relaxation parameter
     double nu;                 // Kinematic viscosity
     
+    // Timing variables
+    double comp_time = 0.0, comm_time = 0.0, total_time = 0.0;
+    double init_time = 0.0, gather_time = 0.0;
+    double start_time, end_time;
+    
+    // Parse command line arguments for domain size and Reynolds number
+    int nx = NX_DEFAULT;
+    int ny = NY_DEFAULT;
+    double reynolds = REYNOLDS_DEFAULT;
+    
     // Initialize MPI
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+    
+    // Parse command line arguments
+    if (argc > 1) nx = atoi(argv[1]);
+    if (argc > 2) ny = atoi(argv[2]);
+    if (argc > 3) reynolds = atof(argv[3]);
+    
+    // Start timing total execution
+    start_time = MPI_Wtime();
     
     // Create a 2D Cartesian grid
     MPI_Dims_create(size, 2, dims);
     
     if (rank == 0) {
         printf("CFD Simulation using MPI Process Topologies\n");
-        printf("Domain size: %d x %d\n", NX, NY);
+        printf("Domain size: %d x %d\n", nx, ny);
         printf("Process grid: %d x %d\n", dims[0], dims[1]);
-        printf("Reynolds number: %f\n", REYNOLDS);
+        printf("Reynolds number: %f\n", reynolds);
     }
     
     // Create the Cartesian communicator
@@ -69,12 +87,12 @@ int main(int argc, char *argv[]) {
     MPI_Cart_coords(cart_comm, rank, 2, coords);
     
     // Determine local grid size
-    int local_nx = NX / dims[1];
-    int local_ny = NY / dims[0];
+    int local_nx = nx / dims[1];
+    int local_ny = ny / dims[0];
     
     // Adjust for remainder
-    if (coords[1] == dims[1] - 1) local_nx += NX % dims[1];
-    if (coords[0] == dims[0] - 1) local_ny += NY % dims[0];
+    if (coords[1] == dims[1] - 1) local_nx += nx % dims[1];
+    if (coords[0] == dims[0] - 1) local_ny += ny % dims[0];
     
     // Allocate memory (+2 for ghost cells in each direction)
     f = (double *)malloc(Q * (local_nx + 2) * (local_ny + 2) * sizeof(double));
@@ -83,23 +101,36 @@ int main(int argc, char *argv[]) {
     ux = (double *)malloc((local_nx + 2) * (local_ny + 2) * sizeof(double));
     uy = (double *)malloc((local_nx + 2) * (local_ny + 2) * sizeof(double));
     
+    if (!f || !f_new || !rho || !ux || !uy) {
+        printf("Process %d: Memory allocation failed\n", rank);
+        MPI_Abort(cart_comm, 1);
+        return 1;
+    }
+    
     // Find neighboring processes
     MPI_Cart_shift(cart_comm, 0, 1, &north, &south);
     MPI_Cart_shift(cart_comm, 1, 1, &west, &east);
     
     // Calculate relaxation parameter
-    nu = U0 * (NX/2) / REYNOLDS;  // Kinematic viscosity
+    nu = U0 * (nx/2) / reynolds;  // Kinematic viscosity
     omega = 1.0 / (3.0 * nu + 0.5); // Relaxation parameter
     
-    // Initialize the flow field
+    // Initialize the flow field (time this separately)
+    start_time = MPI_Wtime();
     init_cavity_flow(f, rho, ux, uy, local_nx + 2, local_ny + 2, coords);
+    end_time = MPI_Wtime();
+    init_time = end_time - start_time;
     
     // Main simulation loop
     for (iter = 0; iter < MAX_ITER; iter++) {
-        // Exchange ghost cells with neighboring processes
+        // Exchange ghost cells with neighboring processes (communication)
+        start_time = MPI_Wtime();
         exchange_ghost_cells(f, local_nx, local_ny, cart_comm, north, south, east, west);
+        end_time = MPI_Wtime();
+        comm_time += end_time - start_time;
         
-        // Streaming and collision step
+        // Streaming and collision step (computation)
+        start_time = MPI_Wtime();
         stream_and_collide(f, f_new, rho, ux, uy, omega, local_nx + 2, local_ny + 2);
         
         // Swap the distribution functions
@@ -112,12 +143,45 @@ int main(int argc, char *argv[]) {
         
         // Compute macroscopic variables
         compute_macroscopic(f, rho, ux, uy, local_nx + 2, local_ny + 2);
+        end_time = MPI_Wtime();
+        comp_time += end_time - start_time;
         
-        // Output results periodically
+        // Output results periodically (time this separately)
         if (iter % OUTPUT_FREQ == 0) {
             if (rank == 0) printf("Iteration %d\n", iter);
-            save_velocity_field(ux, uy, rho, iter, local_nx, local_ny, coords, dims, cart_comm);
+            start_time = MPI_Wtime();
+            save_velocity_field(ux, uy, rho, iter, local_nx, local_ny, coords, dims, cart_comm, nx, ny);
+            end_time = MPI_Wtime();
+            gather_time += end_time - start_time;
         }
+    }
+    
+    // Total execution time
+    end_time = MPI_Wtime();
+    total_time = end_time - start_time;
+    
+    // Gather timings from all processes
+    double global_comp_time, global_comm_time, global_total_time;
+    double global_init_time, global_gather_time;
+    
+    MPI_Reduce(&comp_time, &global_comp_time, 1, MPI_DOUBLE, MPI_MAX, 0, cart_comm);
+    MPI_Reduce(&comm_time, &global_comm_time, 1, MPI_DOUBLE, MPI_MAX, 0, cart_comm);
+    MPI_Reduce(&total_time, &global_total_time, 1, MPI_DOUBLE, MPI_MAX, 0, cart_comm);
+    MPI_Reduce(&init_time, &global_init_time, 1, MPI_DOUBLE, MPI_MAX, 0, cart_comm);
+    MPI_Reduce(&gather_time, &global_gather_time, 1, MPI_DOUBLE, MPI_MAX, 0, cart_comm);
+    
+    // Print timing results
+    if (rank == 0) {
+        printf("\n=== Performance Results ===\n");
+        printf("Domain: %d x %d, Process grid: %d x %d\n", nx, ny, dims[0], dims[1]);
+        printf("Total processes: %d\n", size);
+        printf("Initialization time: %.6f s\n", global_init_time);
+        printf("Computation time: %.6f s\n", global_comp_time);
+        printf("Communication time: %.6f s\n", global_comm_time);
+        printf("Data gathering time: %.6f s\n", global_gather_time);
+        printf("Total time: %.6f s\n", global_total_time);
+        printf("Comp/Comm ratio: %.2f\n", global_comp_time / global_comm_time);
+        printf("Result summary (%.6f/%.6f)\n", global_comp_time, global_comm_time);
     }
     
     // Free memory
@@ -127,6 +191,7 @@ int main(int argc, char *argv[]) {
     free(ux);
     free(uy);
     
+    MPI_Comm_free(&cart_comm);
     MPI_Finalize();
     return 0;
 }
@@ -346,7 +411,7 @@ void exchange_ghost_cells(double *f, int local_nx, int local_ny,
 // Save velocity field for visualization
 void save_velocity_field(double *ux, double *uy, double *rho, int iter, 
                         int local_nx, int local_ny, int coords[2], int dims[2], 
-                        MPI_Comm cart_comm) {
+                        MPI_Comm cart_comm, int nx, int ny) {
     int rank;
     MPI_Comm_rank(cart_comm, &rank);
     
@@ -374,8 +439,8 @@ void save_velocity_field(double *ux, double *uy, double *rho, int iter,
         fprintf(fp, "X Y UX UY RHO\n");
         
         // Global coordinates for rank 0
-        int global_y_offset = coords[0] * (NY / dims[0]);
-        int global_x_offset = coords[1] * (NX / dims[1]);
+        int global_y_offset = coords[0] * (ny / dims[0]);
+        int global_x_offset = coords[1] * (nx / dims[1]);
         
         idx = 0;
         for (int y = 0; y < local_ny; y++) {
@@ -392,20 +457,20 @@ void save_velocity_field(double *ux, double *uy, double *rho, int iter,
             int p_coords[2];
             MPI_Cart_coords(cart_comm, p, 2, p_coords);
             
-            int p_local_nx = NX / dims[1];
-            int p_local_ny = NY / dims[0];
+            int p_local_nx = nx / dims[1];
+            int p_local_ny = ny / dims[0];
             
             // Adjust for remainder
-            if (p_coords[1] == dims[1] - 1) p_local_nx += NX % dims[1];
-            if (p_coords[0] == dims[0] - 1) p_local_ny += NY % dims[0];
+            if (p_coords[1] == dims[1] - 1) p_local_nx += nx % dims[1];
+            if (p_coords[0] == dims[0] - 1) p_local_ny += ny % dims[0];
             
             double *p_data = (double *)malloc(3 * p_local_nx * p_local_ny * sizeof(double));
             
             MPI_Recv(p_data, 3 * p_local_nx * p_local_ny, MPI_DOUBLE, p, 0, cart_comm, MPI_STATUS_IGNORE);
             
             // Global coordinates for process p
-            global_y_offset = p_coords[0] * (NY / dims[0]);
-            global_x_offset = p_coords[1] * (NX / dims[1]);
+            global_y_offset = p_coords[0] * (ny / dims[0]);
+            global_x_offset = p_coords[1] * (nx / dims[1]);
             
             idx = 0;
             for (int y = 0; y < p_local_ny; y++) {
