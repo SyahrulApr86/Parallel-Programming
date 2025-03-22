@@ -4,6 +4,7 @@
 #SBATCH --nodes=2-6          # Request between 2-6 nodes (flexible)
 #SBATCH --output=cfd_results_%j.out
 #SBATCH --error=cfd_errors_%j.err
+#SBATCH --ntasks-per-node=4
 
 # Compile program
 mpicc -o cfd_simulation cfd_simulation.c -lm
@@ -33,7 +34,7 @@ fi
 # Function to run a command with timeout
 run_with_timeout() {
     local cmd="$1"
-    local timeout=600  # 10 minutes timeout
+    local timeout=36000  # 10 hours timeout
     
     # Create a temporary file for error output
     local errfile=$(mktemp)
