@@ -1,0 +1,34 @@
+==== CFD Simulation Experiments using Process Topologies ====
+Execution timestamp: Sab Mar 22 23:55:45 WIB 2025
+
+=== CFD Simulation with Different Process Counts ===
+Domain: 400x100, Reynolds: 100
+Format: (computation_time/communication_time) in seconds
+NP\t4\t9\t16\t25\t36\t
+Time\t(2.046799/0.521879)\t(1.202913/1.959826)\t(0.801362/13.371854)\t(0.570506/52.110834)\t(0.712437/4.690401)\t
+
+=== CFD Simulation with Different Domain Sizes ===
+Process count: 16, Reynolds: 100
+Format: (computation_time/communication_time) in seconds
+Domain\t100 50\t200 100\t400 100\t800 200\t
+Time\t(0.100406/13.185107)\t(0.402384/14.396609)\t(0.791876/27.705580)\t(2.806238/56.892905)\t
+
+=== CFD Simulation with Different Reynolds Numbers ===
+Domain: 400x100, Process count: 16
+Format: (computation_time/communication_time) in seconds
+Re\t10\t100\t500\t1000\t
+Time\t(0.793312/42.994909)\t(1.176295/11.724157)\t(1.082406/13.217814)\t(0.847320/16.611967)\t
+
+=== CFD Simulation with CPU Binding ===
+Domain: 400x100, Reynolds: 100, Process count: 16
+Format: (computation_time/communication_time) in seconds
+Binding\tNone\tCore\tSocket
+Time\t(1.061623/32.712216)\t(0.805294/2.936598)\t(0.739957/1.284118)
+
+=== CFD Simulation with/without Reordering ===
+Domain: 400x100, Reynolds: 100, Process count: 16
+Format: (computation_time/communication_time) in seconds
+Reordering\tWith\tWithout
+Time\t(0.659846/19.001797)\t(0.906203/13.705558)
+
+All experiments completed. Results are saved in cfd_results_1742662545.txt
