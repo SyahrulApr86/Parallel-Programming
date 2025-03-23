@@ -1,0 +1,211 @@
+Process Topology Experiments on Cluster Environment
+==================================================
+
+Running on 6 nodes with approximately 48 total processes
+
+Running tests with 1 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 1 processes
+===== Process Topology Test =====
+Number of processes: 1
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000395 seconds
+Scenario 1: Non-periodic grid
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000019 seconds
+Scenario 2: Periodic grid
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000019 seconds
+Scenario 3: Optimized mapping
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000014 seconds
+Scenario 4: Mixed periodicity
+
+Test 2: Neighbor Communication with 1 processes
+===== Process Topology Test =====
+Number of processes: 1
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Dimension 0 neighbor communication time: 0.000000 seconds
+Process 0 at (0,0) sends to 0, receives from 0
+Dimension 1 neighbor communication time: 0.000000 seconds
+Process 0 at (0,0) sends to 0, receives from 0
+
+Test 3: Cart_sub - Skipped (requires at least 8 processes)
+
+Test 4: 5-point Stencil Communication with 1 processes
+===== Process Topology Test =====
+Number of processes: 1
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+5-point stencil communication time (100 iterations): 0.000003 seconds
+Time per iteration: 0.000000 seconds
+Process 0 final value: 0.000000
+
+
+Running tests with 4 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 4 processes
+===== Process Topology Test =====
+Number of processes: 4
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 2, Cart Rank: 2, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000394 seconds
+Scenario 1: Non-periodic grid
+Process: 2, Cart Rank: 2, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000032 seconds
+Scenario 2: Periodic grid
+Process: 2, Cart Rank: 2, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000028 seconds
+Scenario 3: Optimized mapping
+Process: 2, Cart Rank: 2, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000030 seconds
+Scenario 4: Mixed periodicity
+
+Test 2: Neighbor Communication with 4 processes
+===== Process Topology Test =====
+Number of processes: 4
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Process 2 at (1,0) sends to 0, receives from 0
+Dimension 0 neighbor communication time: 0.000001 seconds
+Process 0 at (0,0) sends to 2, receives from 2
+Process 2 at (1,0) sends to 3, receives from 3
+Dimension 1 neighbor communication time: 0.000001 seconds
+Process 0 at (0,0) sends to 1, receives from 1
+
+Test 3: Cart_sub - Skipped (requires at least 8 processes)
+
+Test 4: 5-point Stencil Communication with 4 processes
+===== Process Topology Test =====
+Number of processes: 4
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+Process 2 final value: 1.500000
+5-point stencil communication time (100 iterations): 0.000089 seconds
+Time per iteration: 0.000001 seconds
+Process 0 final value: 1.500000
+
+
+Running tests with 9 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 9 processes
+===== Process Topology Test =====
+Number of processes: 9
+Test case: 1
+TIMEOUT
+
+Test 2: Neighbor Communication with 9 processes
+===== Process Topology Test =====
+Number of processes: 9
+Test case: 2
+TIMEOUT
+
+Test 3: Cart_sub with 9 processes
+===== Process Topology Test =====
+Number of processes: 9
+Test case: 3
+TIMEOUT
+
+Test 4: 5-point Stencil Communication with 9 processes
+===== Process Topology Test =====
+Number of processes: 9
+Test case: 4
+TIMEOUT
+
+
+Running tests with 16 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 16 processes
+===== Process Topology Test =====
+Number of processes: 16
+Test case: 1
+TIMEOUT
+
+Test 2: Neighbor Communication with 16 processes
+===== Process Topology Test =====
+Number of processes: 16
+Test case: 2
+TIMEOUT
+
+Test 3: Cart_sub with 16 processes
+===== Process Topology Test =====
+Number of processes: 16
+Test case: 3
+TIMEOUT
+
+Test 4: 5-point Stencil Communication with 16 processes
+===== Process Topology Test =====
+Number of processes: 16
+Test case: 4
+TIMEOUT
+
+
+Running tests with 25 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 25 processes
+===== Process Topology Test =====
+Number of processes: 25
+Test case: 1
+TIMEOUT
+
+Test 2: Neighbor Communication with 25 processes
+===== Process Topology Test =====
+Number of processes: 25
+Test case: 2
+TIMEOUT
+
+Test 3: Cart_sub with 25 processes
+===== Process Topology Test =====
+Number of processes: 25
+Test case: 3
+TIMEOUT
+
+Test 4: 5-point Stencil Communication with 25 processes
+===== Process Topology Test =====
+Number of processes: 25
+Test case: 4
+TIMEOUT
+
+
+Running tests with 36 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 36 processes
+===== Process Topology Test =====
+Number of processes: 36
+Test case: 1
+TIMEOUT
+
+Test 2: Neighbor Communication with 36 processes
+===== Process Topology Test =====
+Number of processes: 36
+Test case: 2
+TIMEOUT
+
+Test 3: Cart_sub with 36 processes
+===== Process Topology Test =====
+Number of processes: 36
+Test case: 3
+TIMEOUT
+
+Test 4: 5-point Stencil Communication with 36 processes
+===== Process Topology Test =====
+Number of processes: 36
+Test case: 4
+TIMEOUT
+
+
+All tests completed.
