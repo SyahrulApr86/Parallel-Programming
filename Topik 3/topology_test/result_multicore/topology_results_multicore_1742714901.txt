@@ -1,0 +1,554 @@
+Process Topology Experiments on Multicore System
+================================================
+
+Running tests with 1 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 1 processes
+===== Process Topology Test =====
+Number of processes: 1
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.017923 seconds
+Scenario 1: Non-periodic grid
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000005 seconds
+Scenario 2: Periodic grid
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000005 seconds
+Scenario 3: Optimized mapping
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.000004 seconds
+Scenario 4: Mixed periodicity
+
+Test 2: Neighbor Communication with 1 processes
+===== Process Topology Test =====
+Number of processes: 1
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Dimension 0 neighbor communication time: 0.000000 seconds
+Process 0 at (0,0) sends to 0, receives from 0
+Dimension 1 neighbor communication time: 0.000000 seconds
+Process 0 at (0,0) sends to 0, receives from 0
+
+Test 3: Cart_sub - Skipped (requires at least 8 processes)
+
+Test 4: 5-point Stencil Communication with 1 processes
+===== Process Topology Test =====
+Number of processes: 1
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+5-point stencil communication time (100 iterations): 0.000002 seconds
+Time per iteration: 0.000000 seconds
+Process 0 final value: 0.000000
+
+
+Running tests with 4 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 4 processes
+===== Process Topology Test =====
+Number of processes: 4
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.277135 seconds
+Scenario 1: Non-periodic grid
+Process: 2, Cart Rank: 2, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.264246 seconds
+Scenario 2: Periodic grid
+Process: 2, Cart Rank: 2, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.151027 seconds
+Scenario 3: Optimized mapping
+Process: 2, Cart Rank: 2, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.197186 seconds
+Scenario 4: Mixed periodicity
+Process: 2, Cart Rank: 2, Coords: (1,0)
+
+Test 2: Neighbor Communication with 4 processes
+===== Process Topology Test =====
+Number of processes: 4
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Process 2 at (1,0) sends to 0, receives from 0
+Dimension 0 neighbor communication time: 0.001139 seconds
+Process 0 at (0,0) sends to 2, receives from 2
+Process 2 at (1,0) sends to 3, receives from 3
+Dimension 1 neighbor communication time: 0.004160 seconds
+Process 0 at (0,0) sends to 1, receives from 1
+
+Test 3: Cart_sub - Skipped (requires at least 8 processes)
+
+Test 4: 5-point Stencil Communication with 4 processes
+===== Process Topology Test =====
+Number of processes: 4
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+Process 2 final value: 1.500000
+5-point stencil communication time (100 iterations): 1.691657 seconds
+Time per iteration: 0.016917 seconds
+Process 0 final value: 1.500000
+
+
+Running tests with 9 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 9 processes
+===== Process Topology Test =====
+Number of processes: 9
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.239970 seconds
+Scenario 1: Non-periodic grid
+Process: 6, Cart Rank: 6, Coords: (2,0)
+Process: 3, Cart Rank: 3, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.267978 seconds
+Scenario 2: Periodic grid
+Process: 6, Cart Rank: 6, Coords: (2,0)
+Process: 3, Cart Rank: 3, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.180008 seconds
+Scenario 3: Optimized mapping
+Process: 6, Cart Rank: 6, Coords: (2,0)
+Process: 3, Cart Rank: 3, Coords: (1,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.080006 seconds
+Scenario 4: Mixed periodicity
+Process: 3, Cart Rank: 3, Coords: (1,0)
+Process: 6, Cart Rank: 6, Coords: (2,0)
+
+Test 2: Neighbor Communication with 9 processes
+===== Process Topology Test =====
+Number of processes: 9
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Process 3 at (1,0) sends to 6, receives from 0
+Process 6 at (2,0) sends to 0, receives from 3
+Dimension 0 neighbor communication time: 0.000216 seconds
+Process 0 at (0,0) sends to 3, receives from 6
+Process 3 at (1,0) sends to 4, receives from 5
+Process 6 at (2,0) sends to 7, receives from 8
+Dimension 1 neighbor communication time: 0.000215 seconds
+Process 0 at (0,0) sends to 1, receives from 2
+
+Test 3: Cart_sub with 9 processes
+===== Process Topology Test =====
+Number of processes: 9
+Test case: 3
+
+----- Testing Cart_sub -----
+Process 0: 3D coords (0,0,0), sub_rank: 0
+3D grid dimensions: 9 x 1 x 1
+Cart_sub time: 0.403896 seconds
+Process 3: 3D coords (3,0,0), sub_rank: 3
+Process 6: 3D coords (6,0,0), sub_rank: 6
+
+Test 4: 5-point Stencil Communication with 9 processes
+===== Process Topology Test =====
+Number of processes: 9
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+Process 3 final value: 4.000000
+Process 6 final value: 4.000000
+5-point stencil communication time (100 iterations): 1.715950 seconds
+Time per iteration: 0.017160 seconds
+Process 0 final value: 4.000000
+
+
+Running tests with 16 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 16 processes
+===== Process Topology Test =====
+Number of processes: 16
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.160008 seconds
+Scenario 1: Non-periodic grid
+Process: 5, Cart Rank: 5, Coords: (1,1)
+Process: 10, Cart Rank: 10, Coords: (2,2)
+Process: 15, Cart Rank: 15, Coords: (3,3)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.164016 seconds
+Scenario 2: Periodic grid
+Process: 5, Cart Rank: 5, Coords: (1,1)
+Process: 10, Cart Rank: 10, Coords: (2,2)
+Process: 15, Cart Rank: 15, Coords: (3,3)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.140005 seconds
+Scenario 3: Optimized mapping
+Process: 5, Cart Rank: 5, Coords: (1,1)
+Process: 15, Cart Rank: 15, Coords: (3,3)
+Process: 10, Cart Rank: 10, Coords: (2,2)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.191164 seconds
+Scenario 4: Mixed periodicity
+Process: 5, Cart Rank: 5, Coords: (1,1)
+Process: 15, Cart Rank: 15, Coords: (3,3)
+Process: 10, Cart Rank: 10, Coords: (2,2)
+
+Test 2: Neighbor Communication with 16 processes
+===== Process Topology Test =====
+Number of processes: 16
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Process 5 at (1,1) sends to 9, receives from 1
+Process 15 at (3,3) sends to 3, receives from 11
+Process 10 at (2,2) sends to 14, receives from 6
+Dimension 0 neighbor communication time: 0.002201 seconds
+Process 0 at (0,0) sends to 4, receives from 12
+Process 15 at (3,3) sends to 12, receives from 14
+Process 5 at (1,1) sends to 6, receives from 4
+Process 10 at (2,2) sends to 11, receives from 9
+Dimension 1 neighbor communication time: 0.010439 seconds
+Process 0 at (0,0) sends to 1, receives from 3
+
+Test 3: Cart_sub with 16 processes
+===== Process Topology Test =====
+Number of processes: 16
+Test case: 3
+
+----- Testing Cart_sub -----
+Process 5: 3D coords (1,0,1), sub_rank: 3
+Process 0: 3D coords (0,0,0), sub_rank: 0
+3D grid dimensions: 4 x 2 x 2
+Cart_sub time: 0.512724 seconds
+Process 10: 3D coords (2,1,0), sub_rank: 4
+Process 15: 3D coords (3,1,1), sub_rank: 7
+
+Test 4: 5-point Stencil Communication with 16 processes
+===== Process Topology Test =====
+Number of processes: 16
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+Process 10 final value: 7.500000
+Process 5 final value: 7.500000
+Process 15 final value: 7.500000
+5-point stencil communication time (100 iterations): 1.492006 seconds
+Time per iteration: 0.014920 seconds
+Process 0 final value: 7.500000
+
+
+Running tests with 25 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 25 processes
+===== Process Topology Test =====
+Number of processes: 25
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.243980 seconds
+Scenario 1: Non-periodic grid
+Process: 7, Cart Rank: 7, Coords: (1,2)
+Process: 21, Cart Rank: 21, Coords: (4,1)
+Process: 14, Cart Rank: 14, Coords: (2,4)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.202773 seconds
+Scenario 2: Periodic grid
+Process: 14, Cart Rank: 14, Coords: (2,4)
+Process: 21, Cart Rank: 21, Coords: (4,1)
+Process: 7, Cart Rank: 7, Coords: (1,2)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.240006 seconds
+Scenario 3: Optimized mapping
+Process: 21, Cart Rank: 21, Coords: (4,1)
+Process: 7, Cart Rank: 7, Coords: (1,2)
+Process: 14, Cart Rank: 14, Coords: (2,4)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.175401 seconds
+Scenario 4: Mixed periodicity
+Process: 21, Cart Rank: 21, Coords: (4,1)
+Process: 7, Cart Rank: 7, Coords: (1,2)
+Process: 14, Cart Rank: 14, Coords: (2,4)
+
+Test 2: Neighbor Communication with 25 processes
+===== Process Topology Test =====
+Number of processes: 25
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Process 21 at (4,1) sends to 1, receives from 16
+Process 14 at (2,4) sends to 19, receives from 9
+Process 7 at (1,2) sends to 12, receives from 2
+Dimension 0 neighbor communication time: 0.009959 seconds
+Process 0 at (0,0) sends to 5, receives from 20
+Process 14 at (2,4) sends to 10, receives from 13
+Process 7 at (1,2) sends to 8, receives from 6
+Process 21 at (4,1) sends to 22, receives from 20
+Dimension 1 neighbor communication time: 0.011080 seconds
+Process 0 at (0,0) sends to 1, receives from 4
+
+Test 3: Cart_sub with 25 processes
+===== Process Topology Test =====
+Number of processes: 25
+Test case: 3
+
+----- Testing Cart_sub -----
+Process 0: 3D coords (0,0,0), sub_rank: 0
+3D grid dimensions: 25 x 1 x 1
+Cart_sub time: 0.707972 seconds
+Process 14: 3D coords (14,0,0), sub_rank: 14
+Process 21: 3D coords (21,0,0), sub_rank: 21
+Process 7: 3D coords (7,0,0), sub_rank: 7
+
+Test 4: 5-point Stencil Communication with 25 processes
+===== Process Topology Test =====
+Number of processes: 25
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+Process 21 final value: 12.000275
+Process 14 final value: 12.000064
+Process 7 final value: 11.999794
+5-point stencil communication time (100 iterations): 2.299370 seconds
+Time per iteration: 0.022994 seconds
+Process 0 final value: 11.999646
+
+
+Running tests with 36 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 36 processes
+===== Process Topology Test =====
+Number of processes: 36
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 20, Cart Rank: 20, Coords: (3,2)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.330455 seconds
+Scenario 1: Non-periodic grid
+Process: 30, Cart Rank: 30, Coords: (5,0)
+Process: 10, Cart Rank: 10, Coords: (1,4)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.299990 seconds
+Scenario 2: Periodic grid
+Process: 10, Cart Rank: 10, Coords: (1,4)
+Process: 20, Cart Rank: 20, Coords: (3,2)
+Process: 30, Cart Rank: 30, Coords: (5,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.236002 seconds
+Scenario 3: Optimized mapping
+Process: 10, Cart Rank: 10, Coords: (1,4)
+Process: 20, Cart Rank: 20, Coords: (3,2)
+Process: 30, Cart Rank: 30, Coords: (5,0)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.260008 seconds
+Scenario 4: Mixed periodicity
+Process: 10, Cart Rank: 10, Coords: (1,4)
+Process: 20, Cart Rank: 20, Coords: (3,2)
+Process: 30, Cart Rank: 30, Coords: (5,0)
+
+Test 2: Neighbor Communication with 36 processes
+===== Process Topology Test =====
+Number of processes: 36
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Process 10 at (1,4) sends to 16, receives from 4
+Process 20 at (3,2) sends to 26, receives from 14
+Process 30 at (5,0) sends to 0, receives from 24
+Dimension 0 neighbor communication time: 0.000102 seconds
+Process 0 at (0,0) sends to 6, receives from 30
+Process 10 at (1,4) sends to 11, receives from 9
+Process 20 at (3,2) sends to 21, receives from 19
+Process 30 at (5,0) sends to 31, receives from 35
+Dimension 1 neighbor communication time: 0.000046 seconds
+Process 0 at (0,0) sends to 1, receives from 5
+
+Test 3: Cart_sub with 36 processes
+===== Process Topology Test =====
+Number of processes: 36
+Test case: 3
+
+----- Testing Cart_sub -----
+Process 0: 3D coords (0,0,0), sub_rank: 0
+3D grid dimensions: 4 x 3 x 3
+Cart_sub time: 0.539041 seconds
+Process 30: 3D coords (3,1,0), sub_rank: 9
+Process 10: 3D coords (1,0,1), sub_rank: 4
+Process 20: 3D coords (2,0,2), sub_rank: 8
+
+Test 4: 5-point Stencil Communication with 36 processes
+===== Process Topology Test =====
+Number of processes: 36
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+Process 30 final value: 17.511828
+Process 10 final value: 17.490639
+Process 20 final value: 17.503553
+5-point stencil communication time (100 iterations): 0.024979 seconds
+Time per iteration: 0.000250 seconds
+Process 0 final value: 17.483440
+
+
+Running tests with 49 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 49 processes
+===== Process Topology Test =====
+Number of processes: 49
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.320715 seconds
+Scenario 1: Non-periodic grid
+Process: 13, Cart Rank: 13, Coords: (1,6)
+Process: 39, Cart Rank: 39, Coords: (5,4)
+Process: 26, Cart Rank: 26, Coords: (3,5)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.216008 seconds
+Scenario 2: Periodic grid
+Process: 26, Cart Rank: 26, Coords: (3,5)
+Process: 13, Cart Rank: 13, Coords: (1,6)
+Process: 39, Cart Rank: 39, Coords: (5,4)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.220019 seconds
+Scenario 3: Optimized mapping
+Process: 13, Cart Rank: 13, Coords: (1,6)
+Process: 39, Cart Rank: 39, Coords: (5,4)
+Process: 26, Cart Rank: 26, Coords: (3,5)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.307958 seconds
+Scenario 4: Mixed periodicity
+Process: 13, Cart Rank: 13, Coords: (1,6)
+Process: 26, Cart Rank: 26, Coords: (3,5)
+Process: 39, Cart Rank: 39, Coords: (5,4)
+
+Test 2: Neighbor Communication with 49 processes
+===== Process Topology Test =====
+Number of processes: 49
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Process 13 at (1,6) sends to 20, receives from 6
+Process 26 at (3,5) sends to 33, receives from 19
+Process 39 at (5,4) sends to 46, receives from 32
+Dimension 0 neighbor communication time: 0.000270 seconds
+Process 0 at (0,0) sends to 7, receives from 42
+Process 13 at (1,6) sends to 7, receives from 12
+Process 26 at (3,5) sends to 27, receives from 25
+Process 39 at (5,4) sends to 40, receives from 38
+Dimension 1 neighbor communication time: 0.000148 seconds
+Process 0 at (0,0) sends to 1, receives from 6
+
+Test 3: Cart_sub with 49 processes
+===== Process Topology Test =====
+Number of processes: 49
+Test case: 3
+
+----- Testing Cart_sub -----
+Process 0: 3D coords (0,0,0), sub_rank: 0
+3D grid dimensions: 49 x 1 x 1
+Cart_sub time: 0.526039 seconds
+Process 39: 3D coords (39,0,0), sub_rank: 39
+Process 26: 3D coords (26,0,0), sub_rank: 26
+Process 13: 3D coords (13,0,0), sub_rank: 13
+
+Test 4: 5-point Stencil Communication with 49 processes
+===== Process Topology Test =====
+Number of processes: 49
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+Process 13 final value: 23.904414
+Process 26 final value: 24.017669
+5-point stencil communication time (100 iterations): 0.016344 seconds
+Time per iteration: 0.000163 seconds
+Process 0 final value: 23.838437
+Process 39 final value: 24.132559
+
+
+Running tests with 64 processes
+----------------------------------
+Test 1: Cartesian Topology Creation with 64 processes
+===== Process Topology Test =====
+Number of processes: 64
+Test case: 1
+
+----- Testing Cartesian Topology Creation -----
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.282017 seconds
+Scenario 1: Non-periodic grid
+Process: 17, Cart Rank: 17, Coords: (2,1)
+Process: 34, Cart Rank: 34, Coords: (4,2)
+Process: 51, Cart Rank: 51, Coords: (6,3)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.314012 seconds
+Scenario 2: Periodic grid
+Process: 17, Cart Rank: 17, Coords: (2,1)
+Process: 34, Cart Rank: 34, Coords: (4,2)
+Process: 51, Cart Rank: 51, Coords: (6,3)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.240071 seconds
+Scenario 3: Optimized mapping
+Process: 17, Cart Rank: 17, Coords: (2,1)
+Process: 51, Cart Rank: 51, Coords: (6,3)
+Process: 34, Cart Rank: 34, Coords: (4,2)
+Process: 0, Cart Rank: 0, Coords: (0,0)
+Create Cartesian topology time: 0.304127 seconds
+Scenario 4: Mixed periodicity
+Process: 17, Cart Rank: 17, Coords: (2,1)
+Process: 34, Cart Rank: 34, Coords: (4,2)
+Process: 51, Cart Rank: 51, Coords: (6,3)
+
+Test 2: Neighbor Communication with 64 processes
+===== Process Topology Test =====
+Number of processes: 64
+Test case: 2
+
+----- Testing Neighbor Communication -----
+Process 17 at (2,1) sends to 25, receives from 9
+Process 34 at (4,2) sends to 42, receives from 26
+Process 51 at (6,3) sends to 59, receives from 43
+Dimension 0 neighbor communication time: 0.000261 seconds
+Process 0 at (0,0) sends to 8, receives from 56
+Process 17 at (2,1) sends to 18, receives from 16
+Process 51 at (6,3) sends to 52, receives from 50
+Process 34 at (4,2) sends to 35, receives from 33
+Dimension 1 neighbor communication time: 0.000359 seconds
+Process 0 at (0,0) sends to 1, receives from 7
+
+Test 3: Cart_sub with 64 processes
+===== Process Topology Test =====
+Number of processes: 64
+Test case: 3
+
+----- Testing Cart_sub -----
+Process 0: 3D coords (0,0,0), sub_rank: 0
+3D grid dimensions: 4 x 4 x 4
+Cart_sub time: 1.087606 seconds
+Process 51: 3D coords (3,0,3), sub_rank: 15
+Process 17: 3D coords (1,0,1), sub_rank: 5
+Process 34: 3D coords (2,0,2), sub_rank: 10
+
+Test 4: 5-point Stencil Communication with 64 processes
+===== Process Topology Test =====
+Number of processes: 64
+Test case: 4
+
+----- Testing 5-point Stencil Communication -----
+Process 17 final value: 31.044628
+Process 51 final value: 32.064474
+Process 34 final value: 31.588608
+5-point stencil communication time (100 iterations): 0.172146 seconds
+Time per iteration: 0.001721 seconds
+Process 0 final value: 30.783840
+
+
