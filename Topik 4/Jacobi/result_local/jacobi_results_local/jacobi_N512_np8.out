@@ -1,0 +1,10 @@
+Jacobi method for solving linear systems
+Matrix size: 512 x 512
+Number of processes: 8
+Iterations: 5
+Final residual: 4.229339e-07
+Total time: 0.002034 seconds
+Compute time: 0.000461 seconds
+Communication time: 0.001572 seconds
+Compute/Comm ratio: 0.000461/0.001572
+Final error ||Ax - b||: 3.906482e-05
