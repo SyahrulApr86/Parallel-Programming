@@ -1,0 +1,12 @@
+Conjugate Gradient method for solving linear systems
+Matrix size: 2048 x 2048
+Number of processes: 1
+Initial residual: 2.602709e+02
+Iteration 0: residual = 7.994016e+00
+Iterations: 6
+Final residual: 2.719818e-07
+Total time: 0.324895 seconds
+Compute time: 0.300135 seconds
+Communication time: 0.024716 seconds
+Compute/Comm ratio: 0.300135/0.024716
+Final error ||Ax - b||: 2.719818e-07
