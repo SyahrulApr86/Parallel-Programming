@@ -1,0 +1,10 @@
+Red-Black Gauss-Seidel method for solving linear systems
+Matrix size: 16224 x 16224
+Number of processes: 2
+Iterations: 3
+Final residual: 4.640010e-08
+Total time: 4.519932 seconds
+Compute time: 3.411678 seconds
+Communication time: 1.108118 seconds
+Compute/Comm ratio: 3.411678/1.108118
+Final error ||Ax - b||: 3.773847e-05
