@@ -5,7 +5,7 @@
 mpicc -o jacobi_solver jacobi_solver.c -lm
 
 # Matrix sizes to test
-SIZES=(128 256 512 1024 2048 4056 8112)
+SIZES=(128 256 512 1024 2048 4056 8112 16224)
 
 # Process counts to test
 PROCS=(1 2 4 8 16 32 64)
