@@ -44,23 +44,20 @@ void generate_spd_matrix(double *A, double *b, int N) {
 }
 
 // Function to compute matrix-vector product y = A*x
-void matrix_vector_mult(double *A, double *x, double *y, int local_start, int local_size, int N) {
-    int i, j;
-    
-    for (i = 0; i < local_size; i++) {
+void matrix_vector_mult(double *local_A, double *x, double *y, int local_start, int local_size, int N) {
+    for (int i = 0; i < local_size; i++) {
         y[i] = 0.0;
-        for (j = 0; j < N; j++) {
-            y[i] += A[(local_start + i)*N + j] * x[j];
+        for (int j = 0; j < N; j++) {
+            y[i] += local_A[i*N + j] * x[j];
         }
     }
 }
 
 // Function to compute dot product of two vectors
 double dot_product(double *a, double *b, int local_size) {
-    int i;
     double local_dot = 0.0;
     
-    for (i = 0; i < local_size; i++) {
+    for (int i = 0; i < local_size; i++) {
         local_dot += a[i] * b[i];
     }
     
@@ -129,18 +126,14 @@ int main(int argc, char *argv[]) {
     double *local_A = (double*)malloc(local_size * N * sizeof(double));
     double *local_b = (double*)malloc(local_size * sizeof(double));
     
-    // CG algorithm vectors (all processes)
-    double *local_r = (double*)malloc(local_size * sizeof(double));
-    double *local_p = (double*)malloc(local_size * sizeof(double));
-    double *local_Ap = (double*)malloc(local_size * sizeof(double));
+    // CG algorithm vectors
+    double *r = (double*)malloc(N * sizeof(double));
+    double *p = (double*)malloc(N * sizeof(double));
+    double *Ap = (double*)malloc(N * sizeof(double));
     
-    // Full vectors for gathering (only rank 0 needs them)
-    double *full_r = NULL;
-    double *full_p = NULL;
-    if (rank == 0) {
-        full_r = (double*)malloc(N * sizeof(double));
-        full_p = (double*)malloc(N * sizeof(double));
-    }
+    // Local portions of CG vectors
+    double *local_r = (double*)malloc(local_size * sizeof(double));
+    double *local_Ap = (double*)malloc(local_size * sizeof(double));
     
     // Initialize solution vector with zeros
     for (int i = 0; i < N; i++) {
@@ -152,6 +145,12 @@ int main(int argc, char *argv[]) {
         A = (double*)malloc(N * N * sizeof(double));
         b = (double*)malloc(N * sizeof(double));
         
+        if (A == NULL || b == NULL) {
+            printf("Memory allocation failed on rank 0\n");
+            MPI_Abort(MPI_COMM_WORLD, 1);
+            return 1;
+        }
+        
         generate_spd_matrix(A, b, N);
     }
     
@@ -161,34 +160,40 @@ int main(int argc, char *argv[]) {
     
     double comm_start, comm_end;
     
-    // Scatter matrix A and vector b to all processes
-    comm_start = MPI_Wtime();
-    
     // Prepare arrays for scatter operation
     int *sendcounts = (int*)malloc(size * sizeof(int));
     int *displs = (int*)malloc(size * sizeof(int));
     
-    // Calculate send counts and displacements
+    if (sendcounts == NULL || displs == NULL) {
+        printf("Memory allocation failed on rank %d\n", rank);
+        MPI_Abort(MPI_COMM_WORLD, 1);
+        return 1;
+    }
+    
+    // Calculate send counts and displacements for matrix distribution
     int disp = 0;
     for (int i = 0; i < size; i++) {
-        sendcounts[i] = (i < remainder) ? (local_N + 1) * N : local_N * N;
+        int rows = (i < remainder) ? local_N + 1 : local_N;
+        sendcounts[i] = rows * N;
         displs[i] = disp;
         disp += sendcounts[i];
     }
     
-    // Scatter matrix A
+    // Scatter matrix A and vector b
+    comm_start = MPI_Wtime();
+    
     MPI_Scatterv(A, sendcounts, displs, MPI_DOUBLE, 
                  local_A, local_size * N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
     // Recalculate for vector b
     disp = 0;
     for (int i = 0; i < size; i++) {
-        sendcounts[i] = (i < remainder) ? (local_N + 1) : local_N;
+        int rows = (i < remainder) ? local_N + 1 : local_N;
+        sendcounts[i] = rows;
         displs[i] = disp;
-        disp += sendcounts[i];
+        disp += rows;
     }
     
-    // Scatter vector b
     MPI_Scatterv(b, sendcounts, displs, MPI_DOUBLE,
                  local_b, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     
@@ -200,30 +205,27 @@ int main(int argc, char *argv[]) {
     
     // Compute initial residual r = b - A*x
     double compute_start = MPI_Wtime();
+    double compute_end;
     
-    matrix_vector_mult(local_A, x, local_r, local_start, local_size, N);
+    // Since x is zero initially, r = b
     for (int i = 0; i < local_size; i++) {
-        local_r[i] = local_b[i] - local_r[i];
-        local_p[i] = local_r[i];  // Initial search direction
+        local_r[i] = local_b[i];
     }
     
-    double compute_end = MPI_Wtime();
-    compute_time += compute_end - compute_start;
-    
-    // Gather full p and r vectors (needed for the first iteration)
+    // Gather the complete residual vector
     comm_start = MPI_Wtime();
-    
-    MPI_Gatherv(local_r, local_size, MPI_DOUBLE,
-                full_r, sendcounts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    
-    MPI_Gatherv(local_p, local_size, MPI_DOUBLE,
-                full_p, sendcounts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    
-    // Broadcast full p vector to all processes
-    MPI_Bcast(full_p, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    
+    MPI_Allgatherv(local_r, local_size, MPI_DOUBLE,
+                  r, sendcounts, displs, MPI_DOUBLE, MPI_COMM_WORLD);
     comm_end = MPI_Wtime();
     comm_time += comm_end - comm_start;
+    
+    // Set initial search direction p = r
+    for (int i = 0; i < N; i++) {
+        p[i] = r[i];
+    }
+    
+    compute_end = MPI_Wtime();
+    compute_time += compute_end - compute_start;
     
     // CG iteration
     int iter;
@@ -231,83 +233,103 @@ int main(int argc, char *argv[]) {
     double alpha, beta;
     double residual_norm;
     
-    comm_start = MPI_Wtime();
-    
     // Compute initial r_dot_r (r·r)
+    comm_start = MPI_Wtime();
     double local_r_dot_r = dot_product(local_r, local_r, local_size);
     MPI_Allreduce(&local_r_dot_r, &r_dot_r, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
     
     // Compute initial residual norm
     residual_norm = sqrt(r_dot_r);
-    
     comm_end = MPI_Wtime();
     comm_time += comm_end - comm_start;
+    
+    if (rank == 0) {
+        printf("Initial residual: %e\n", residual_norm);
+    }
     
     for (iter = 0; iter < max_iter && residual_norm > tol; iter++) {
         // Compute Ap
         compute_start = MPI_Wtime();
-        matrix_vector_mult(local_A, full_p, local_Ap, local_start, local_size, N);
+        matrix_vector_mult(local_A, p, local_Ap, local_start, local_size, N);
         compute_end = MPI_Wtime();
         compute_time += compute_end - compute_start;
         
-        // Compute p_dot_Ap (p·Ap)
+        // Gather all Ap pieces
         comm_start = MPI_Wtime();
-        double local_p_dot_Ap = dot_product(local_p, local_Ap, local_size);
+        MPI_Allgatherv(local_Ap, local_size, MPI_DOUBLE,
+                      Ap, sendcounts, displs, MPI_DOUBLE, MPI_COMM_WORLD);
+        comm_end = MPI_Wtime();
+        comm_time += comm_end - comm_start;
+        
+        // Compute p_dot_Ap (p·Ap)
+        compute_start = MPI_Wtime();
+        double local_p_dot_Ap = 0.0;
+        for (int i = 0; i < local_size; i++) {
+            local_p_dot_Ap += p[local_start + i] * local_Ap[i];
+        }
+        compute_end = MPI_Wtime();
+        compute_time += compute_end - compute_start;
+        
+        // Global sum for p_dot_Ap
+        comm_start = MPI_Wtime();
         MPI_Allreduce(&local_p_dot_Ap, &p_dot_Ap, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         comm_end = MPI_Wtime();
         comm_time += comm_end - comm_start;
         
         // Compute alpha = (r·r)/(p·Ap)
+        compute_start = MPI_Wtime();
         alpha = r_dot_r / p_dot_Ap;
         
         // Update x and r
-        compute_start = MPI_Wtime();
+        for (int i = 0; i < N; i++) {
+            x[i] = x[i] + alpha * p[i];
+        }
+        
         for (int i = 0; i < local_size; i++) {
             local_r[i] = local_r[i] - alpha * local_Ap[i];
         }
         compute_end = MPI_Wtime();
         compute_time += compute_end - compute_start;
         
-        // Update solution x
+        // Gather updated residual
+        comm_start = MPI_Wtime();
+        MPI_Allgatherv(local_r, local_size, MPI_DOUBLE,
+                      r, sendcounts, displs, MPI_DOUBLE, MPI_COMM_WORLD);
+        comm_end = MPI_Wtime();
+        comm_time += comm_end - comm_start;
+        
+        // Compute new r_dot_r (r_new·r_new)
         compute_start = MPI_Wtime();
-        for (int i = 0; i < N; i++) {
-            x[i] = x[i] + alpha * full_p[i];
-        }
+        double local_r_dot_r_new = dot_product(local_r, local_r, local_size);
         compute_end = MPI_Wtime();
         compute_time += compute_end - compute_start;
         
-        // Compute new r_dot_r (r_new·r_new)
         comm_start = MPI_Wtime();
-        double local_r_dot_r_new = dot_product(local_r, local_r, local_size);
         MPI_Allreduce(&local_r_dot_r_new, &r_dot_r_new, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
         comm_end = MPI_Wtime();
         comm_time += comm_end - comm_start;
         
         // Compute beta = (r_new·r_new)/(r·r)
+        compute_start = MPI_Wtime();
         beta = r_dot_r_new / r_dot_r;
         
         // Update search direction p
-        compute_start = MPI_Wtime();
-        for (int i = 0; i < local_size; i++) {
-            local_p[i] = local_r[i] + beta * local_p[i];
+        for (int i = 0; i < N; i++) {
+            p[i] = r[i] + beta * p[i];
         }
-        compute_end = MPI_Wtime();
-        compute_time += compute_end - compute_start;
-        
-        // Gather and broadcast updated p
-        comm_start = MPI_Wtime();
-        MPI_Gatherv(local_p, local_size, MPI_DOUBLE,
-                    full_p, sendcounts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        
-        MPI_Bcast(full_p, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-        comm_end = MPI_Wtime();
-        comm_time += comm_end - comm_start;
         
         // Update r_dot_r for next iteration
         r_dot_r = r_dot_r_new;
         
         // Update residual norm
         residual_norm = sqrt(r_dot_r);
+        compute_end = MPI_Wtime();
+        compute_time += compute_end - compute_start;
+        
+        // Print progress periodically
+        if (rank == 0 && iter % 100 == 0) {
+            printf("Iteration %d: residual = %e\n", iter, residual_norm);
+        }
     }
     
     // End timing
@@ -325,8 +347,10 @@ int main(int argc, char *argv[]) {
         printf("Compute/Comm ratio: %f/%f\n", compute_time, comm_time);
         
         // Calculate residual norm ||Ax - b|| for verification
-        double final_residual = compute_residual(A, b, x, N);
-        printf("Final error ||Ax - b||: %e\n", final_residual);
+        if (A != NULL && b != NULL) {
+            double final_residual = compute_residual(A, b, x, N);
+            printf("Final error ||Ax - b||: %e\n", final_residual);
+        }
     }
     
     // Clean up
@@ -336,14 +360,14 @@ int main(int argc, char *argv[]) {
     free(local_A);
     free(local_b);
     free(local_r);
-    free(local_p);
     free(local_Ap);
+    free(r);
+    free(p);
+    free(Ap);
     
     if (rank == 0) {
-        free(A);
-        free(b);
-        free(full_r);
-        free(full_p);
+        if (A != NULL) free(A);
+        if (b != NULL) free(b);
     }
     
     MPI_Finalize();

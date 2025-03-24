@@ -6,8 +6,8 @@
 #SBATCH --error=cg_cluster_%j.err
 #SBATCH --time=72:00:00    # Set maximum run time to 72 hours
 
-# Compile the program
-mpicc -o conjugate_gradient_solver conjugate_gradient_solver.c -lm
+# Compile the program with debug flags
+mpicc -o conjugate_gradient_solver conjugate_gradient_solver.c -lm -g -O0
 
 # Matrix sizes to test
 SIZES=(128 256 512 1024 2048 4056 8112 16224)
@@ -54,22 +54,26 @@ echo "" >> "$SUMMARY_FILE"
 # Function to run a command with timeout
 run_with_timeout() {
     local cmd="$1"
-    local timeout=43200  # 12 hour timeout for larger matrices
+    local timeout=3600  # 1 hour timeout for each test case
     
     # Create a temporary file for output
     local outfile=$(mktemp)
+    
+    # Print the command we're about to run (to stderr only)
+    echo "RUNNING: $cmd" >&2
     
     # Run the command with timeout
     timeout --kill-after=60s $timeout bash -c "$cmd" > "$outfile" 2>&1
     local exit_code=$?
     
     if [ $exit_code -eq 124 ] || [ $exit_code -eq 137 ]; then
-        echo "TIMEOUT"
+        echo "TIMEOUT" >&2
         echo "Command timed out after ${timeout}s: $cmd" >&2
         echo "TIMEOUT/TIMEOUT"  # Return format for summary table
     elif [ $exit_code -ne 0 ]; then
-        echo "ERROR($exit_code)"
+        echo "ERROR($exit_code)" >&2
         echo "Command failed with exit code $exit_code: $cmd" >&2
+        cat "$outfile" >&2  # Print output to help debug
         echo "ERROR/ERROR"  # Return format for summary table
     else
         # Extract results from the output file
@@ -101,8 +105,7 @@ for N in "${SIZES[@]}"; do
     printf "N=%-4s|" "$N" >> "$SUMMARY_FILE"
     
     for np in "${PROCS[@]}"; do
-        # Run all configurations as requested - no skipping
-        echo "Running with np=$np processes..."
+        echo "Running with np=$np processes..." >&2
         
         # Output file for this run
         OUTPUT_FILE="$RESULTS_DIR/cg_N${N}_np${np}.out"
@@ -120,5 +123,5 @@ done
 echo "" >> "$SUMMARY_FILE"
 echo "All tests completed. Results saved to $RESULTS_DIR" >> "$SUMMARY_FILE"
 
-echo "All tests completed. Results saved to $RESULTS_DIR"
-cat "$SUMMARY_FILE"
+echo "All tests completed. Results saved to $RESULTS_DIR" >&2
+cat "$SUMMARY_FILE" >&2
