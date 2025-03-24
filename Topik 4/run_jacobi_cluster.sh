@@ -20,7 +20,7 @@ mkdir -p "$RESULTS_DIR"
 
 # Create CSV file for results
 RESULTS_CSV="$RESULTS_DIR/jacobi_results_cluster.csv"
-echo "N,np,ComputeTime,CommunicationTime" > "$RESULTS_CSV"
+echo "N,np,Iterations,FinalResidual,TotalTime,ComputeTime,CommunicationTime,FinalError" > "$RESULTS_CSV"
 
 # Summary file
 SUMMARY_FILE="$RESULTS_DIR/summary.txt"
@@ -63,12 +63,19 @@ for N in "${SIZES[@]}"; do
         # Run the Jacobi solver
         mpirun --mca btl_tcp_if_exclude docker0,lo -np $np ./jacobi_solver $N > "$OUTPUT_FILE"
         
-        # Extract timing information
+        # Extract all information
+        ITERATIONS=$(grep "Iterations:" "$OUTPUT_FILE" | awk '{print $2}')
+        FINAL_RESIDUAL=$(grep "Final residual:" "$OUTPUT_FILE" | awk '{print $3}')
+        TOTAL_TIME=$(grep "Total time:" "$OUTPUT_FILE" | awk '{print $3}')
         COMPUTE_TIME=$(grep "Compute time:" "$OUTPUT_FILE" | awk '{print $3}')
         COMM_TIME=$(grep "Communication time:" "$OUTPUT_FILE" | awk '{print $3}')
+        FINAL_ERROR=$(grep "Final error" "$OUTPUT_FILE" | awk '{print $4}')
+        
+        # Save full output for reference
+        cp "$OUTPUT_FILE" "$RESULTS_DIR/full_output_N${N}_np${np}.txt"
         
         # Add to CSV
-        echo "$N,$np,$COMPUTE_TIME,$COMM_TIME" >> "$RESULTS_CSV"
+        echo "$N,$np,$ITERATIONS,$FINAL_RESIDUAL,$TOTAL_TIME,$COMPUTE_TIME,$COMM_TIME,$FINAL_ERROR" >> "$RESULTS_CSV"
         
         # Add to summary table
         printf " %s/%s |" "$COMPUTE_TIME" "$COMM_TIME" >> "$SUMMARY_FILE"
