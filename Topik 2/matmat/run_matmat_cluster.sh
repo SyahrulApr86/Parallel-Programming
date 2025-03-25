@@ -11,7 +11,7 @@ mpicc -o matmat matmat.c -lm -O3
 
 # Matrix sizes to test (must be divisible by all process counts)
 # Using smaller sizes than matvec because matrix-matrix multiplication is O(n³)
-SIZES=(480 960 1920 3840 7680)
+SIZES=(480 960 1920 3840)
 
 # Process counts to test
 PROCS=(1 2 4 8 16 32)

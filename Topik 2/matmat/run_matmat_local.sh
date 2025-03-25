@@ -5,7 +5,7 @@
 mpicc -o matmat matmat.c -lm -O3
 
 # Matrix sizes to test - adjusted for local PC (must be divisible by all process counts)
-SIZES=(480 960 1920 3840 7680)
+SIZES=(480 960 1920 3840)
 
 # Process counts to test - adjusted for your 16-thread CPU
 PROCS=(1 2 4 8)
