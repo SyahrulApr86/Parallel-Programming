@@ -1,5 +1,10 @@
 #!/bin/bash
-# Script to run CFD simulation on a multicore system (1 CPU with 64 cores)
+#SBATCH --job-name=cfd-cluster
+#SBATCH --partition=batch
+#SBATCH --nodes=1-8        # Request up to 8 nodes
+#SBATCH --output=cfd_cluster_%j.out
+#SBATCH --error=cfd_cluster_%j.err
+#SBATCH --time=72:00:00    # Set maximum run time to 72 hours
 
 # Compile the program
 mpicc -o cfd_simulation cfd_simulation.c -lm -O3
@@ -16,25 +21,30 @@ DOMAIN_SIZES=(
 REYNOLDS=(100 500 1000)
 
 # Process counts to test
-PROCS=(1 2 4 8 16 32 64)
+PROCS=(1 2 4 8 16 32)
 
 # Create results directory
-RESULTS_DIR="cfd_results_multicore"
+RESULTS_DIR="cfd_results_cluster"
 mkdir -p "$RESULTS_DIR"
 
 # Create CSV file for results
-RESULTS_CSV="$RESULTS_DIR/cfd_results_multicore.csv"
+RESULTS_CSV="$RESULTS_DIR/cfd_results_cluster.csv"
 echo "NX,NY,Reynolds,np,ComputeTime,CommunicationTime,TotalTime" > "$RESULTS_CSV"
 
 # Summary file
 SUMMARY_FILE="$RESULTS_DIR/summary.txt"
-echo "CFD Simulation - Multicore Environment Results" > "$SUMMARY_FILE"
-echo "============================================" >> "$SUMMARY_FILE"
+echo "CFD Simulation - Cluster Environment Results" > "$SUMMARY_FILE"
+echo "==========================================" >> "$SUMMARY_FILE"
 echo "" >> "$SUMMARY_FILE"
-echo "Environment B (Multicore System - 1 CPU with 64 cores)" >> "$SUMMARY_FILE"
+echo "Environment A (8 Nodes Cluster)" >> "$SUMMARY_FILE"
 echo "" >> "$SUMMARY_FILE"
 echo "Format: ComputeTime/CommunicationTime (seconds)" >> "$SUMMARY_FILE"
 echo "" >> "$SUMMARY_FILE"
+
+# Calculate total available processes
+TOTAL_PROCS=$(($SLURM_JOB_NUM_NODES * 8))
+echo "Running on $SLURM_JOB_NUM_NODES nodes with approximately $TOTAL_PROCS total processes"
+echo "" | tee -a "$SUMMARY_FILE"
 
 # Function to run a command with timeout
 run_with_timeout() {
@@ -119,13 +129,20 @@ for DOMAIN in "${DOMAIN_SIZES[@]}"; do
         printf "%-10s|" "Comp/Comm" >> "$SUMMARY_FILE"
         
         for np in "${PROCS[@]}"; do
+            # Skip if the number of processes is greater than available
+            if [ $np -gt $TOTAL_PROCS ]; then
+                echo "Skipping np=$np (exceeds available processes)" >&2
+                printf " N/A      |" >> "$SUMMARY_FILE"
+                continue
+            fi
+            
             echo "Running with np=$np processes..." >&2
             
             # Output file for this run
             OUTPUT_FILE="$RESULTS_DIR/cfd_${NX}x${NY}_Re${RE}_np${np}.out"
             
             # Run the CFD simulation
-            result=$(run_with_timeout "mpirun -np $np ./cfd_simulation $NX $NY $RE")
+            result=$(run_with_timeout "mpirun --mca btl_tcp_if_exclude docker0,lo -np $np ./cfd_simulation $NX $NY $RE")
             
             # Add to summary table
             printf " %s |" "$result" >> "$SUMMARY_FILE"

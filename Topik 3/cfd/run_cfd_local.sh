@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to run CFD simulation on a multicore system (1 CPU with 64 cores)
+# Script to run CFD simulation on a local system (AMD Ryzen 7 5800H - 8 cores/16 threads)
 
 # Compile the program
 mpicc -o cfd_simulation cfd_simulation.c -lm -O3
@@ -15,23 +15,23 @@ DOMAIN_SIZES=(
 # Reynolds numbers to test
 REYNOLDS=(100 500 1000)
 
-# Process counts to test
-PROCS=(1 2 4 8 16 32 64)
+# Process counts to test - adjusted for your 16-thread CPU
+PROCS=(1 2 4 8 16)
 
 # Create results directory
-RESULTS_DIR="cfd_results_multicore"
+RESULTS_DIR="cfd_results_local"
 mkdir -p "$RESULTS_DIR"
 
 # Create CSV file for results
-RESULTS_CSV="$RESULTS_DIR/cfd_results_multicore.csv"
+RESULTS_CSV="$RESULTS_DIR/cfd_results_local.csv"
 echo "NX,NY,Reynolds,np,ComputeTime,CommunicationTime,TotalTime" > "$RESULTS_CSV"
 
 # Summary file
 SUMMARY_FILE="$RESULTS_DIR/summary.txt"
-echo "CFD Simulation - Multicore Environment Results" > "$SUMMARY_FILE"
-echo "============================================" >> "$SUMMARY_FILE"
+echo "CFD Simulation - Local PC Environment Results" > "$SUMMARY_FILE"
+echo "==========================================" >> "$SUMMARY_FILE"
 echo "" >> "$SUMMARY_FILE"
-echo "Environment B (Multicore System - 1 CPU with 64 cores)" >> "$SUMMARY_FILE"
+echo "Environment: AMD Ryzen 7 5800H (8 cores, 16 threads)" >> "$SUMMARY_FILE"
 echo "" >> "$SUMMARY_FILE"
 echo "Format: ComputeTime/CommunicationTime (seconds)" >> "$SUMMARY_FILE"
 echo "" >> "$SUMMARY_FILE"
@@ -39,7 +39,7 @@ echo "" >> "$SUMMARY_FILE"
 # Function to run a command with timeout
 run_with_timeout() {
     local cmd="$1"
-    local timeout=7200  # 2 hour timeout for each test case
+    local timeout=1800  # 30 min timeout
     
     # Create a temporary file for output
     local outfile=$(mktemp)
@@ -48,7 +48,7 @@ run_with_timeout() {
     echo "RUNNING: $cmd" >&2
     
     # Run the command with timeout
-    timeout --kill-after=60s $timeout bash -c "$cmd" > "$outfile" 2>&1
+    timeout --kill-after=30s $timeout bash -c "$cmd" > "$outfile" 2>&1
     local exit_code=$?
     
     if [ $exit_code -eq 124 ] || [ $exit_code -eq 137 ]; then
