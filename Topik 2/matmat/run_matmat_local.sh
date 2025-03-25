@@ -1,34 +1,26 @@
 #!/bin/bash
-# Script to run CFD simulation on a local system (AMD Ryzen 7 5800H - 8 cores/16 threads)
+# Script to run Matrix-Matrix multiplication on a local system (AMD Ryzen 7 5800H - 8 cores/16 threads)
 
 # Compile the program
-mpicc -o cfd_simulation cfd_simulation.c -lm -O3
+mpicc -o matmat matmat.c -lm -O3
 
-# Domain sizes to test (NX x NY)
-DOMAIN_SIZES=(
-    "100 50"     # Small domain
-    "200 100"    # Medium domain
-    "400 200"    # Large domain
-    "800 400"    # Extra large domain
-)
-
-# Reynolds numbers to test
-REYNOLDS=(100 500 1000)
+# Matrix sizes to test - adjusted for local PC (must be divisible by all process counts)
+SIZES=(480 960 1920 3840 7680)
 
 # Process counts to test - adjusted for your 16-thread CPU
 PROCS=(1 2 4 8)
 
 # Create results directory
-RESULTS_DIR="cfd_results_local"
+RESULTS_DIR="matmat_results_local"
 mkdir -p "$RESULTS_DIR"
 
 # Create CSV file for results
-RESULTS_CSV="$RESULTS_DIR/cfd_results_local.csv"
-echo "NX,NY,Reynolds,np,ComputeTime,CommunicationTime,TotalTime" > "$RESULTS_CSV"
+RESULTS_CSV="$RESULTS_DIR/matmat_results_local.csv"
+echo "Size,np,ComputeTime,CommunicationTime,TotalTime" > "$RESULTS_CSV"
 
 # Summary file
 SUMMARY_FILE="$RESULTS_DIR/summary.txt"
-echo "CFD Simulation - Local PC Environment Results" > "$SUMMARY_FILE"
+echo "Matrix-Matrix Multiplication - Local PC Environment Results" > "$SUMMARY_FILE"
 echo "==========================================" >> "$SUMMARY_FILE"
 echo "" >> "$SUMMARY_FILE"
 echo "Environment: AMD Ryzen 7 5800H (8 cores, 16 threads)" >> "$SUMMARY_FILE"
@@ -39,7 +31,7 @@ echo "" >> "$SUMMARY_FILE"
 # Function to run a command with timeout
 run_with_timeout() {
     local cmd="$1"
-    local timeout=1800  # 30 min timeout
+    local timeout=3600  # 1 hour timeout
     
     # Create a temporary file for output
     local outfile=$(mktemp)
@@ -80,7 +72,7 @@ run_with_timeout() {
         echo "$compute_time/$comm_time"  # Return format for summary table
         
         # Add to CSV
-        echo "$NX,$NY,$RE,$np,$compute_time,$comm_time,$total_time" >> "$RESULTS_CSV"
+        echo "$N,$np,$compute_time,$comm_time,$total_time" >> "$RESULTS_CSV"
     fi
     
     # Copy the output to the result file
@@ -90,49 +82,49 @@ run_with_timeout() {
     rm -f "$outfile"
 }
 
-# Run tests for different domain sizes, Reynolds numbers and process counts
-for DOMAIN in "${DOMAIN_SIZES[@]}"; do
-    # Split domain string into NX and NY
-    read NX NY <<< "$DOMAIN"
+# Table header
+echo -n "      |" >> "$SUMMARY_FILE"
+for np in "${PROCS[@]}"; do
+    printf " np=%-4s |" "$np" >> "$SUMMARY_FILE"
+done
+echo "" >> "$SUMMARY_FILE"
+
+echo -n "------|" >> "$SUMMARY_FILE"
+for np in "${PROCS[@]}"; do
+    echo -n "----------|" >> "$SUMMARY_FILE"
+done
+echo "" >> "$SUMMARY_FILE"
+
+# Run tests for each matrix size and process count
+for N in "${SIZES[@]}"; do
+    echo "====================================================="
+    echo "Running Matrix-Matrix multiplication with N=$N"
+    echo "====================================================="
     
-    for RE in "${REYNOLDS[@]}"; do
-        # Create table header for this configuration
-        echo "" >> "$SUMMARY_FILE"
-        echo "Domain Size: ${NX}x${NY}, Reynolds: $RE" >> "$SUMMARY_FILE"
-        echo -n "Processes |" >> "$SUMMARY_FILE"
-        for np in "${PROCS[@]}"; do
-            printf " np=%-4s |" "$np" >> "$SUMMARY_FILE"
-        done
-        echo "" >> "$SUMMARY_FILE"
+    # Start row in summary table
+    printf "N=%-6s|" "$N" >> "$SUMMARY_FILE"
+    
+    for np in "${PROCS[@]}"; do
+        # Skip if matrix size is not divisible by process count
+        if [ $((N % np)) -ne 0 ]; then
+            echo "Skipping np=$np (matrix size $N not divisible by $np)" >&2
+            printf " N/D      |" >> "$SUMMARY_FILE"
+            continue
+        fi
         
-        echo -n "----------|" >> "$SUMMARY_FILE"
-        for np in "${PROCS[@]}"; do
-            echo -n "----------|" >> "$SUMMARY_FILE"
-        done
-        echo "" >> "$SUMMARY_FILE"
+        echo "Running with np=$np processes..." >&2
         
-        echo "============================================================"
-        echo "Running CFD simulation with domain ${NX}x${NY}, Reynolds $RE"
-        echo "============================================================"
+        # Output file for this run
+        OUTPUT_FILE="$RESULTS_DIR/matmat_N${N}_np${np}.out"
         
-        # Start row in summary table
-        printf "%-10s|" "Comp/Comm" >> "$SUMMARY_FILE"
+        # Run the Matrix-Matrix multiplication
+        result=$(run_with_timeout "mpirun -np $np ./matmat $N")
         
-        for np in "${PROCS[@]}"; do
-            echo "Running with np=$np processes..." >&2
-            
-            # Output file for this run
-            OUTPUT_FILE="$RESULTS_DIR/cfd_${NX}x${NY}_Re${RE}_np${np}.out"
-            
-            # Run the CFD simulation
-            result=$(run_with_timeout "mpirun -np $np ./cfd_simulation $NX $NY $RE")
-            
-            # Add to summary table
-            printf " %s |" "$result" >> "$SUMMARY_FILE"
-        done
-        
-        echo "" >> "$SUMMARY_FILE"
+        # Add to summary table
+        printf " %s |" "$result" >> "$SUMMARY_FILE"
     done
+    
+    echo "" >> "$SUMMARY_FILE"
 done
 
 echo "" >> "$SUMMARY_FILE"
