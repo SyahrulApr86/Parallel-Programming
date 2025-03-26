@@ -1,0 +1,5 @@
+Matrix-Matrix Multiplication: N=960, NP=4
+Computation time: 0.528826 s
+Communication time: 0.024303 s
+Total time: 0.553129 s
+Result summary (0.528826/0.024303)

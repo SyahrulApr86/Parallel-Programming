@@ -1,0 +1,61 @@
+nohup: ignoring input
+=====================================================
+Running Matrix-Matrix multiplication with N=480
+=====================================================
+Running with np=1 processes...
+RUNNING: mpirun -np 1 ./matmat 480
+Running with np=2 processes...
+RUNNING: mpirun -np 2 ./matmat 480
+Running with np=4 processes...
+RUNNING: mpirun -np 4 ./matmat 480
+Running with np=8 processes...
+RUNNING: mpirun -np 8 ./matmat 480
+=====================================================
+Running Matrix-Matrix multiplication with N=960
+=====================================================
+Running with np=1 processes...
+RUNNING: mpirun -np 1 ./matmat 960
+Running with np=2 processes...
+RUNNING: mpirun -np 2 ./matmat 960
+Running with np=4 processes...
+RUNNING: mpirun -np 4 ./matmat 960
+Running with np=8 processes...
+RUNNING: mpirun -np 8 ./matmat 960
+=====================================================
+Running Matrix-Matrix multiplication with N=1920
+=====================================================
+Running with np=1 processes...
+RUNNING: mpirun -np 1 ./matmat 1920
+Running with np=2 processes...
+RUNNING: mpirun -np 2 ./matmat 1920
+Running with np=4 processes...
+RUNNING: mpirun -np 4 ./matmat 1920
+Running with np=8 processes...
+RUNNING: mpirun -np 8 ./matmat 1920
+=====================================================
+Running Matrix-Matrix multiplication with N=3840
+=====================================================
+Running with np=1 processes...
+RUNNING: mpirun -np 1 ./matmat 3840
+Running with np=2 processes...
+RUNNING: mpirun -np 2 ./matmat 3840
+Running with np=4 processes...
+RUNNING: mpirun -np 4 ./matmat 3840
+Running with np=8 processes...
+RUNNING: mpirun -np 8 ./matmat 3840
+All tests completed. Results saved to matmat_results_local
+Matrix-Matrix Multiplication - Local PC Environment Results
+==========================================
+
+Environment: AMD Ryzen 7 5800H (8 cores, 16 threads)
+
+Format: ComputeTime/CommunicationTime (seconds)
+
+      | np=1    | np=2    | np=4    | np=8    |
+------|----------|----------|----------|----------|
+N=480   | 0.086158/0.002619 | 0.043737/0.003253 | 0.026099/0.005522 | 0.018505/0.005232 |
+N=960   | 1.131793/0.008797 | 0.660552/0.017953 | 0.528826/0.024303 | 0.411049/0.023949 |
+N=1920  | 16.826630/0.029874 | 9.395542/0.062570 | 6.191834/0.120505 | 4.583990/0.141650 |
+N=3840  | 282.769982/0.111296 | 143.758332/2.836084 | 80.633382/0.731459 | 49.011396/1.577456 |
+
+All tests completed. Results saved to matmat_results_local

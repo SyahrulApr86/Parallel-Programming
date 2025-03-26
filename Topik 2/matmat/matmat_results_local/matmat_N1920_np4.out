@@ -1,0 +1,5 @@
+Matrix-Matrix Multiplication: N=1920, NP=4
+Computation time: 6.191834 s
+Communication time: 0.120505 s
+Total time: 6.312339 s
+Result summary (6.191834/0.120505)
