@@ -1,0 +1,5 @@
+Matrix-Vector Multiplication: N=4800, NP=16
+Computation time: 0.001440 s
+Communication time: 0.078383 s
+Total time: 0.079823 s
+Result summary (0.001440/0.078383)

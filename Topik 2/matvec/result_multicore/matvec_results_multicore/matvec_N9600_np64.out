@@ -1,0 +1,5 @@
+Matrix-Vector Multiplication: N=9600, NP=64
+Computation time: 0.001304 s
+Communication time: 0.333348 s
+Total time: 0.334652 s
+Result summary (0.001304/0.333348)
