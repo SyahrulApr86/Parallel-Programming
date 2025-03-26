@@ -1,0 +1,5 @@
+Matrix-Matrix Multiplication: N=480, NP=1
+Computation time: 0.076930 s
+Communication time: 0.000750 s
+Total time: 0.077681 s
+Result summary (0.076930/0.000750)

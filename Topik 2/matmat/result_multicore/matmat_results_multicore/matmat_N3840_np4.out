@@ -1,0 +1,5 @@
+Matrix-Matrix Multiplication: N=3840, NP=4
+Computation time: 64.521515 s
+Communication time: 13.296288 s
+Total time: 77.817803 s
+Result summary (64.521515/13.296288)
