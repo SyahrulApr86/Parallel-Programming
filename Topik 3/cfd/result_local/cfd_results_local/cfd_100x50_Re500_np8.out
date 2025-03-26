@@ -1,0 +1,25 @@
+CFD Simulation using MPI Process Topologies
+Domain size: 100 x 50
+Process grid: 4 x 2
+Reynolds number: 500.000000
+Iteration 0
+Iteration 100
+Iteration 200
+Iteration 300
+Iteration 400
+Iteration 500
+Iteration 600
+Iteration 700
+Iteration 800
+Iteration 900
+
+=== Performance Results ===
+Domain: 100 x 50, Process grid: 4 x 2
+Total processes: 8
+Initialization time: 0.000037 s
+Computation time: 0.015851 s
+Communication time: 0.260119 s
+Data gathering time: 0.262597 s
+Total time: 0.000019 s
+Comp/Comm ratio: 0.06
+Result summary (0.015851/0.260119)
