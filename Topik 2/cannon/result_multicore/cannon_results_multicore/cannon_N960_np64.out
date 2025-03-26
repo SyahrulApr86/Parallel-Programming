@@ -1,0 +1,5 @@
+Cannon's Algorithm Matrix Multiplication: N=960, NP=64
+Computation time: 0.018434 s
+Communication time: 0.043318 s
+Total time: 0.061752 s
+Result summary (0.018434/0.043318)
