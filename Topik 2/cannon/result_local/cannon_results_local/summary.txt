@@ -1,0 +1,15 @@
+Cannon's Algorithm - Local PC Environment Results
+==========================================
+
+Environment: AMD Ryzen 7 5800H (8 cores, 16 threads)
+
+Format: ComputeTime/CommunicationTime (seconds)
+
+      | np=1    | np=4    |
+------|----------|----------|
+N=480   | 0.114009/0.005013 | 0.029218/0.009749 |
+N=960   | 1.726185/0.021863 | 0.240765/0.034312 |
+N=1920  | 19.890180/0.089678 | 5.497979/0.341479 |
+N=3840  | 299.909779/0.243419 | 48.515692/1.017296 |
+
+All tests completed. Results saved to cannon_results_local
