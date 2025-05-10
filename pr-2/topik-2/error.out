@@ -1,0 +1,90 @@
+➡️  N = 16 (0.00 MB) | Threads = 8192 | nBlocks = 32
+🧪 N = 16           |     0.00 MB | nBlocks =  32 | Threads =    8192 | Time =   0.0165 ms | Errors: 0
+
+➡️  N = 16 (0.00 MB) | Threads = 16384 | nBlocks = 64
+🧪 N = 16           |     0.00 MB | nBlocks =  64 | Threads =   16384 | Time =   0.0062 ms | Errors: 0
+
+➡️  N = 1000 (0.00 MB) | Threads = 8192 | nBlocks = 32
+🧪 N = 1000         |     0.00 MB | nBlocks =  32 | Threads =    8192 | Time =   0.0072 ms | Errors: 0
+
+➡️  N = 1000 (0.00 MB) | Threads = 16384 | nBlocks = 64
+🧪 N = 1000         |     0.00 MB | nBlocks =  64 | Threads =   16384 | Time =   0.0071 ms | Errors: 0
+
+➡️  N = 1048576 (4.00 MB) | Threads = 8192 | nBlocks = 32
+❌ ERROR at 8192: expected 8193.0, got 8192.0
+❌ ERROR at 8193: expected 8194.0, got 8193.0
+❌ ERROR at 8194: expected 8195.0, got 8194.0
+❌ ERROR at 8195: expected 8196.0, got 8195.0
+❌ ERROR at 8196: expected 8197.0, got 8196.0
+❌ ERROR at 8197: expected 8198.0, got 8197.0
+❌ ERROR at 8198: expected 8199.0, got 8198.0
+❌ ERROR at 8199: expected 8200.0, got 8199.0
+❌ ERROR at 8200: expected 8201.0, got 8200.0
+❌ ERROR at 8201: expected 8202.0, got 8201.0
+🧪 N = 1048576      |     4.00 MB | nBlocks =  32 | Threads =    8192 | Time =   0.0068 ms | Errors: 1040384
+
+➡️  N = 1048576 (4.00 MB) | Threads = 16384 | nBlocks = 64
+❌ ERROR at 16384: expected 16385.0, got 16384.0
+❌ ERROR at 16385: expected 16386.0, got 16385.0
+❌ ERROR at 16386: expected 16387.0, got 16386.0
+❌ ERROR at 16387: expected 16388.0, got 16387.0
+❌ ERROR at 16388: expected 16389.0, got 16388.0
+❌ ERROR at 16389: expected 16390.0, got 16389.0
+❌ ERROR at 16390: expected 16391.0, got 16390.0
+❌ ERROR at 16391: expected 16392.0, got 16391.0
+❌ ERROR at 16392: expected 16393.0, got 16392.0
+❌ ERROR at 16393: expected 16394.0, got 16393.0
+🧪 N = 1048576      |     4.00 MB | nBlocks =  64 | Threads =   16384 | Time =   0.0093 ms | Errors: 1032192
+
+➡️  N = 16777216 (64.00 MB) | Threads = 8192 | nBlocks = 32
+❌ ERROR at 8192: expected 8193.0, got 8192.0
+❌ ERROR at 8193: expected 8194.0, got 8193.0
+❌ ERROR at 8194: expected 8195.0, got 8194.0
+❌ ERROR at 8195: expected 8196.0, got 8195.0
+❌ ERROR at 8196: expected 8197.0, got 8196.0
+❌ ERROR at 8197: expected 8198.0, got 8197.0
+❌ ERROR at 8198: expected 8199.0, got 8198.0
+❌ ERROR at 8199: expected 8200.0, got 8199.0
+❌ ERROR at 8200: expected 8201.0, got 8200.0
+❌ ERROR at 8201: expected 8202.0, got 8201.0
+🧪 N = 16777216     |    64.00 MB | nBlocks =  32 | Threads =    8192 | Time =   0.0256 ms | Errors: 16769024
+
+➡️  N = 16777216 (64.00 MB) | Threads = 16384 | nBlocks = 64
+❌ ERROR at 16384: expected 16385.0, got 16384.0
+❌ ERROR at 16385: expected 16386.0, got 16385.0
+❌ ERROR at 16386: expected 16387.0, got 16386.0
+❌ ERROR at 16387: expected 16388.0, got 16387.0
+❌ ERROR at 16388: expected 16389.0, got 16388.0
+❌ ERROR at 16389: expected 16390.0, got 16389.0
+❌ ERROR at 16390: expected 16391.0, got 16390.0
+❌ ERROR at 16391: expected 16392.0, got 16391.0
+❌ ERROR at 16392: expected 16393.0, got 16392.0
+❌ ERROR at 16393: expected 16394.0, got 16393.0
+🧪 N = 16777216     |    64.00 MB | nBlocks =  64 | Threads =   16384 | Time =   0.0258 ms | Errors: 16760832
+
+➡️  N = 268435456 (1024.00 MB) | Threads = 8192 | nBlocks = 32
+❌ ERROR at 8192: expected 8193.0, got 8192.0
+❌ ERROR at 8193: expected 8194.0, got 8193.0
+❌ ERROR at 8194: expected 8195.0, got 8194.0
+❌ ERROR at 8195: expected 8196.0, got 8195.0
+❌ ERROR at 8196: expected 8197.0, got 8196.0
+❌ ERROR at 8197: expected 8198.0, got 8197.0
+❌ ERROR at 8198: expected 8199.0, got 8198.0
+❌ ERROR at 8199: expected 8200.0, got 8199.0
+❌ ERROR at 8200: expected 8201.0, got 8200.0
+❌ ERROR at 8201: expected 8202.0, got 8201.0
+🧪 N = 268435456    |  1024.00 MB | nBlocks =  32 | Threads =    8192 | Time =   0.0251 ms | Errors: 20963328
+
+➡️  N = 268435456 (1024.00 MB) | Threads = 16384 | nBlocks = 64
+❌ ERROR at 16384: expected 16385.0, got 16384.0
+❌ ERROR at 16385: expected 16386.0, got 16385.0
+❌ ERROR at 16386: expected 16387.0, got 16386.0
+❌ ERROR at 16387: expected 16388.0, got 16387.0
+❌ ERROR at 16388: expected 16389.0, got 16388.0
+❌ ERROR at 16389: expected 16390.0, got 16389.0
+❌ ERROR at 16390: expected 16391.0, got 16390.0
+❌ ERROR at 16391: expected 16392.0, got 16391.0
+❌ ERROR at 16392: expected 16393.0, got 16392.0
+❌ ERROR at 16393: expected 16394.0, got 16393.0
+🧪 N = 268435456    |  1024.00 MB | nBlocks =  64 | Threads =   16384 | Time =   0.0677 ms | Errors: 20955136
+

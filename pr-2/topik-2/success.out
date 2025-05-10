@@ -1,0 +1,72 @@
+➡️  N = 16 (0.00 MB) | nBlocks = 32 | blockSize = 256
+✅ N = 16           |     0.00 MB | nBlocks =   32 | Time =   0.0184 ms | Status: correct
+
+➡️  N = 16 (0.00 MB) | nBlocks = 64 | blockSize = 256
+✅ N = 16           |     0.00 MB | nBlocks =   64 | Time =   0.0063 ms | Status: correct
+
+➡️  N = 16 (0.00 MB) | nBlocks = 128 | blockSize = 256
+✅ N = 16           |     0.00 MB | nBlocks =  128 | Time =   0.0062 ms | Status: correct
+
+➡️  N = 16 (0.00 MB) | nBlocks = 256 | blockSize = 256
+✅ N = 16           |     0.00 MB | nBlocks =  256 | Time =   0.0061 ms | Status: correct
+
+➡️  N = 1000 (0.00 MB) | nBlocks = 32 | blockSize = 256
+✅ N = 1000         |     0.00 MB | nBlocks =   32 | Time =   0.0053 ms | Status: correct
+
+➡️  N = 1000 (0.00 MB) | nBlocks = 64 | blockSize = 256
+✅ N = 1000         |     0.00 MB | nBlocks =   64 | Time =   0.0061 ms | Status: correct
+
+➡️  N = 1000 (0.00 MB) | nBlocks = 128 | blockSize = 256
+✅ N = 1000         |     0.00 MB | nBlocks =  128 | Time =   0.0062 ms | Status: correct
+
+➡️  N = 1000 (0.00 MB) | nBlocks = 256 | blockSize = 256
+✅ N = 1000         |     0.00 MB | nBlocks =  256 | Time =   0.0053 ms | Status: correct
+
+➡️  N = 1048576 (4.00 MB) | nBlocks = 32 | blockSize = 256
+✅ N = 1048576      |     4.00 MB | nBlocks =   32 | Time =   0.0524 ms | Status: correct
+
+➡️  N = 1048576 (4.00 MB) | nBlocks = 64 | blockSize = 256
+✅ N = 1048576      |     4.00 MB | nBlocks =   64 | Time =   0.0346 ms | Status: correct
+
+➡️  N = 1048576 (4.00 MB) | nBlocks = 128 | blockSize = 256
+✅ N = 1048576      |     4.00 MB | nBlocks =  128 | Time =   0.0275 ms | Status: correct
+
+➡️  N = 1048576 (4.00 MB) | nBlocks = 256 | blockSize = 256
+✅ N = 1048576      |     4.00 MB | nBlocks =  256 | Time =   0.0298 ms | Status: correct
+
+➡️  N = 16777216 (64.00 MB) | nBlocks = 32 | blockSize = 256
+✅ N = 16777216     |    64.00 MB | nBlocks =   32 | Time =   0.8464 ms | Status: correct
+
+➡️  N = 16777216 (64.00 MB) | nBlocks = 64 | blockSize = 256
+✅ N = 16777216     |    64.00 MB | nBlocks =   64 | Time =   0.5203 ms | Status: correct
+
+➡️  N = 16777216 (64.00 MB) | nBlocks = 128 | blockSize = 256
+✅ N = 16777216     |    64.00 MB | nBlocks =  128 | Time =   0.4239 ms | Status: correct
+
+➡️  N = 16777216 (64.00 MB) | nBlocks = 256 | blockSize = 256
+✅ N = 16777216     |    64.00 MB | nBlocks =  256 | Time =   0.4659 ms | Status: correct
+
+➡️  N = 268435456 (1024.00 MB) | nBlocks = 32 | blockSize = 256
+✅ N = 268435456    |  1024.00 MB | nBlocks =   32 | Time =  13.7186 ms | Status: correct
+
+➡️  N = 268435456 (1024.00 MB) | nBlocks = 64 | blockSize = 256
+✅ N = 268435456    |  1024.00 MB | nBlocks =   64 | Time =   8.7891 ms | Status: correct
+
+➡️  N = 268435456 (1024.00 MB) | nBlocks = 128 | blockSize = 256
+✅ N = 268435456    |  1024.00 MB | nBlocks =  128 | Time =   8.0550 ms | Status: correct
+
+➡️  N = 268435456 (1024.00 MB) | nBlocks = 256 | blockSize = 256
+✅ N = 268435456    |  1024.00 MB | nBlocks =  256 | Time =   8.5101 ms | Status: correct
+
+➡️  N = 1073741824 (4096.00 MB) | nBlocks = 32 | blockSize = 256
+✅ N = 1073741824   |  4096.00 MB | nBlocks =   32 | Time =  50.1417 ms | Status: correct
+
+➡️  N = 1073741824 (4096.00 MB) | nBlocks = 64 | blockSize = 256
+✅ N = 1073741824   |  4096.00 MB | nBlocks =   64 | Time =  36.9558 ms | Status: correct
+
+➡️  N = 1073741824 (4096.00 MB) | nBlocks = 128 | blockSize = 256
+✅ N = 1073741824   |  4096.00 MB | nBlocks =  128 | Time =  35.5221 ms | Status: correct
+
+➡️  N = 1073741824 (4096.00 MB) | nBlocks = 256 | blockSize = 256
+✅ N = 1073741824   |  4096.00 MB | nBlocks =  256 | Time =  36.4260 ms | Status: correct
+
