@@ -1,0 +1,6 @@
+Device: NVIDIA GeForce GTX 1080 Ti
+Max threads per block      : 1024
+Max threads dim (x, y, z)  : 1024 x 1024 x 64
+Max grid size (x, y, z)    : 2147483647 x 65535 x 65535
+Shared memory per block    : 49152 bytes
+Total global memory        : 11718361088 bytes
