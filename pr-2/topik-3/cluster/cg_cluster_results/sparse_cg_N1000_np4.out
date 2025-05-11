@@ -1,0 +1,16 @@
+Conjugate Gradient method (Sparse MPI)
+Matrix size: 1000 x 1000
+Number of processes: 4
+Maximum iterations: 1000
+Tolerance: 1.000000e-06
+Sparsity: 0.90 (90.00% zeros)
+Matrix has 190664 non-zero elements (80.93% sparsity)
+Initial residual: 1.816867e+02
+Iteration 0: residual = 4.377799e+02
+Iterations: 37
+Final residual: -nan
+Total time: 0.005857 seconds
+Compute time: 0.000919 seconds
+Communication time: 0.004895 seconds
+Compute/Comm ratio: 0.187818
+Final error ||Ax - b||: -nan

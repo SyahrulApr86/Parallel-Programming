@@ -1,0 +1,14 @@
+Conjugate Gradient method using MPI
+Matrix size: 1000 x 1000
+Number of processes: 4
+Maximum iterations: 1000
+Tolerance: 1.000000e-06
+Initial residual: 1.832623e+02
+Iteration 0: residual = 8.269716e+00
+Iterations: 7
+Final residual: 1.020337e-07
+Total time: 0.006358 seconds
+Compute time: 0.002517 seconds
+Communication time: 0.003815 seconds
+Compute/Comm ratio: 0.659715
+Final error ||Ax - b||: 1.020337e-07

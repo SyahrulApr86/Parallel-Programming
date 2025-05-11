@@ -1,0 +1,14 @@
+Conjugate Gradient method (Sparse MPI)
+Matrix size: 20000 x 20000
+Number of processes: 2
+Maximum iterations: 1000
+Tolerance: 1.000000e-06
+Sparsity: 0.90 (90.00% zeros)
+Matrix has 76018178 non-zero elements (81.00% sparsity)
+--------------------------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 0 with PID 0 on node node-02 exited on signal 9 (Killed).
+--------------------------------------------------------------------------
