@@ -1,0 +1,8 @@
+Matrix Multiplication using MPI
+Matrix size: 2048 x 2048
+Number of processes: 8
+Matrix multiplication completed.
+Total time: 36.650040 seconds
+Compute time: 36.584301 seconds
+Communication time: 0.065717 seconds
+Compute/Comm ratio: 36.584301/0.065717

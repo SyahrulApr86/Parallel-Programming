@@ -1,0 +1,154 @@
+user04@store-01:~/kelompok_senja/pr2-topik2$ scontrol show node
+NodeName=node-01 Arch=x86_64 CoresPerSocket=4
+   CPUAlloc=0 CPUTot=8 CPULoad=0.87
+   AvailableFeatures=(null)
+   ActiveFeatures=(null)
+   Gres=(null)
+   NodeAddr=node-01 NodeHostName=node-01 Version=21.08.1
+   OS=Linux 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023
+   RealMemory=5624 AllocMem=0 FreeMem=136 Sockets=1 Boards=1
+   State=DOWN ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   Partitions=batch
+   BootTime=2025-04-21T02:00:53 SlurmdStartTime=2025-04-21T02:01:46
+   LastBusyTime=2025-04-21T01:57:50
+   CfgTRES=cpu=8,mem=5624M,billing=8
+   AllocTRES=
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+   Reason=Node unexpectedly rebooted [slurm@2025-04-21T02:01:46]
+
+NodeName=node-02 Arch=x86_64 CoresPerSocket=4
+   CPUAlloc=0 CPUTot=8 CPULoad=0.00
+   AvailableFeatures=(null)
+   ActiveFeatures=(null)
+   Gres=(null)
+   NodeAddr=node-02 NodeHostName=node-02 Version=21.08.1
+   OS=Linux 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023
+   RealMemory=5624 AllocMem=0 FreeMem=1128 Sockets=1 Boards=1
+   State=IDLE ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   Partitions=batch
+   BootTime=2025-03-06T08:30:20 SlurmdStartTime=2025-03-06T08:31:11
+   LastBusyTime=2025-05-10T20:17:00
+   CfgTRES=cpu=8,mem=5624M,billing=8
+   AllocTRES=
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+
+NodeName=node-03 Arch=x86_64 CoresPerSocket=4
+   CPUAlloc=0 CPUTot=8 CPULoad=0.81
+   AvailableFeatures=(null)
+   ActiveFeatures=(null)
+   Gres=(null)
+   NodeAddr=node-03 NodeHostName=node-03 Version=21.08.1
+   OS=Linux 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023
+   RealMemory=5624 AllocMem=0 FreeMem=195 Sockets=1 Boards=1
+   State=DOWN+DRAIN ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   Partitions=batch
+   BootTime=2025-04-21T02:00:08 SlurmdStartTime=2025-04-21T02:00:52
+   LastBusyTime=2025-04-21T01:57:15
+   CfgTRES=cpu=8,mem=5624M,billing=8
+   AllocTRES=
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+   Reason=NHC: Check check_nv_gpu_count 1 returned 1 [root@2025-04-21T02:00:51]
+
+NodeName=node-04 Arch=x86_64 CoresPerSocket=4
+   CPUAlloc=0 CPUTot=8 CPULoad=0.94
+   AvailableFeatures=(null)
+   ActiveFeatures=(null)
+   Gres=(null)
+   NodeAddr=node-04 NodeHostName=node-04 Version=21.08.1
+   OS=Linux 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023
+   RealMemory=5641 AllocMem=0 FreeMem=144 Sockets=1 Boards=1
+   State=IDLE ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   Partitions=batch
+   BootTime=2025-03-06T08:30:56 SlurmdStartTime=2025-03-06T08:31:44
+   LastBusyTime=2025-05-10T20:17:00
+   CfgTRES=cpu=8,mem=5641M,billing=8
+   AllocTRES=
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+
+NodeName=node-05 Arch=x86_64 CoresPerSocket=4
+   CPUAlloc=0 CPUTot=8 CPULoad=0.02
+   AvailableFeatures=(null)
+   ActiveFeatures=(null)
+   Gres=(null)
+   NodeAddr=node-05 NodeHostName=node-05 Version=21.08.1
+   OS=Linux 5.0.0-23-generic #24~18.04.1-Ubuntu SMP Mon Jul 29 16:12:28 UTC 2019
+   RealMemory=5641 AllocMem=0 FreeMem=1648 Sockets=1 Boards=1
+   State=DOWN+NOT_RESPONDING ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   Partitions=batch
+   BootTime=2025-02-04T03:13:21 SlurmdStartTime=2025-02-04T03:13:58
+   LastBusyTime=2025-04-21T01:57:15
+   CfgTRES=cpu=8,mem=5641M,billing=8
+   AllocTRES=
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+   Reason=Not responding [slurm@2025-04-21T01:57:49]
+
+NodeName=node-06 Arch=x86_64 CoresPerSocket=4
+   CPUAlloc=0 CPUTot=8 CPULoad=0.29
+   AvailableFeatures=(null)
+   ActiveFeatures=(null)
+   Gres=(null)
+   NodeAddr=node-06 NodeHostName=node-06 Version=21.08.1
+   OS=Linux 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023
+   RealMemory=5624 AllocMem=0 FreeMem=358 Sockets=1 Boards=1
+   State=IDLE ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   Partitions=batch
+   BootTime=2025-03-06T08:31:14 SlurmdStartTime=2025-03-06T08:32:03
+   LastBusyTime=2025-05-10T20:17:00
+   CfgTRES=cpu=8,mem=5624M,billing=8
+   AllocTRES=
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+
+NodeName=node-07 Arch=x86_64 CoresPerSocket=4
+   CPUAlloc=0 CPUTot=8 CPULoad=0.94
+   AvailableFeatures=(null)
+   ActiveFeatures=(null)
+   Gres=(null)
+   NodeAddr=node-07 NodeHostName=node-07 Version=21.08.1
+   OS=Linux 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023
+   RealMemory=5641 AllocMem=0 FreeMem=136 Sockets=1 Boards=1
+   State=IDLE ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   Partitions=batch
+   BootTime=2025-03-06T08:31:27 SlurmdStartTime=2025-03-06T08:32:18
+   LastBusyTime=2025-05-10T20:17:00
+   CfgTRES=cpu=8,mem=5641M,billing=8
+   AllocTRES=
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+
+NodeName=node-08 Arch=x86_64 CoresPerSocket=4
+   CPUAlloc=0 CPUTot=8 CPULoad=0.92
+   AvailableFeatures=(null)
+   ActiveFeatures=(null)
+   Gres=(null)
+   NodeAddr=node-08 NodeHostName=node-08 Version=21.08.1
+   OS=Linux 5.4.0-150-generic #167~18.04.1-Ubuntu SMP Wed May 24 00:51:42 UTC 2023
+   RealMemory=3714 AllocMem=0 FreeMem=125 Sockets=1 Boards=1
+   State=IDLE ThreadsPerCore=2 TmpDisk=0 Weight=1 Owner=N/A MCS_label=N/A
+   Partitions=batch
+   BootTime=2025-03-06T08:34:43 SlurmdStartTime=2025-03-06T08:35:30
+   LastBusyTime=2025-05-10T20:17:00
+   CfgTRES=cpu=8,mem=3714M,billing=8
+   AllocTRES=
+   CapWatts=n/a
+   CurrentWatts=0 AveWatts=0
+   ExtSensorsJoules=n/s ExtSensorsWatts=0 ExtSensorsTemp=n/s
+
+user04@store-01:~/kelompok_senja/pr2-topik2$ sinfo-1
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+batch*       up   infinite      1  down* node-05
+batch*       up   infinite      1  drain node-03
+batch*       up   infinite      5   idle node-[02,04,06-08]
+batch*       up   infinite      1   down node-01
